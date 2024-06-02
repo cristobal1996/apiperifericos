@@ -7,6 +7,7 @@ import { ProductosModule } from './modules/productos/productos.module';
 import { CategoriasModule } from './modules/categorias/categorias.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
+import { MarcasModule } from './modules/marcas/marcas.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { UsuariosModule } from './modules/usuarios/usuarios.module';
     CategoriasModule,
     AuthModule,
     UsuariosModule,
+    MarcasModule,
     ],
   controllers: [AppController],
   providers: [AppService],

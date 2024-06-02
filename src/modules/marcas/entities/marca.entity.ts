@@ -2,9 +2,9 @@ import { Producto } from "src/modules/productos/entities/producto.entity";
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
 @Entity({
-    name: 'Categoria',
+    name: 'Marcas',
   })
-export class Categoria {
+export class Marca {
 @PrimaryColumn()
 cod: string;
 
@@ -14,7 +14,12 @@ nombre: string;
 @Column('text')
 descripcion: string;
 
-@OneToMany(() => Producto, (Producto) => Producto.categoria, { cascade: false })
-Producto?: Producto[];
+@Column('text')
+telefono: string;
 
+@Column('text')
+sitioweb: string;
+
+@OneToMany(() => Producto, (Producto) => Producto.marca, { cascade: false })
+Producto?: Producto[];
 }
