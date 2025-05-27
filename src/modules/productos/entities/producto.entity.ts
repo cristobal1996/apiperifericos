@@ -1,5 +1,4 @@
 import { Categoria } from "src/modules/categorias/entities/categoria.entity";
-import { Marca } from "src/modules/marcas/entities/marca.entity";
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: ' Productos'})
@@ -41,10 +40,4 @@ tamaño: string[];
     cascade: true,
   })
   categoria: Categoria;
-
-@ManyToOne(() => Marca, (marca) => marca.Producto, {
-    cascade: true,
-  })
-marca: Marca;
-
 }

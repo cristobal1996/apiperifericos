@@ -1,1 +1,2 @@
+import {  } from "class-validator";
 export class CreateProductoDto {}

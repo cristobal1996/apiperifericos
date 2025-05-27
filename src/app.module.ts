@@ -8,6 +8,7 @@ import { CategoriasModule } from './modules/categorias/categorias.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { MarcasModule } from './modules/marcas/marcas.module';
+import { CarritoModule } from './modules/carrito/carrito.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { MarcasModule } from './modules/marcas/marcas.module';
     AuthModule,
     UsuariosModule,
     MarcasModule,
+    CarritoModule,
     ],
   controllers: [AppController],
   providers: [AppService],
