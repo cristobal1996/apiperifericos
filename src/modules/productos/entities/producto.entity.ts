@@ -1,5 +1,6 @@
+import { CarritoProducto } from "src/modules/carritoproducto/entities/carritoproducto.entity";
 import { Categoria } from "src/modules/categorias/entities/categoria.entity";
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({ name: ' Productos'})
 
@@ -39,5 +40,6 @@ tamaño: string[];
 @ManyToOne(() => Categoria, (categoria) => categoria.Producto, {
     cascade: true,
   })
-  categoria: Categoria;
+@OneToMany(() => CarritoProducto, cp => cp.producto)
+  carritos: CarritoProducto[];
 }
