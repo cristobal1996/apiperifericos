@@ -3,6 +3,27 @@ import { ProductosService } from './productos.service';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
 
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@Roles('admin')
+@Post()
+createProducto(@Body() dto: CreateProductoDto) {
+  return this.productoService.create(dto);
+}
+
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@Roles('admin')
+@Patch(':id')
+updateProducto(@Param('id') id: string, @Body() dto: UpdateProductoDto) {
+  return this.productoService.update(id, dto);
+}
+
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@Roles('admin')
+@Delete(':id')
+removeProducto(@Param('id') id: string) {
+  return this.productoService.remove(id);
+}
+
 @Controller('productos')
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
