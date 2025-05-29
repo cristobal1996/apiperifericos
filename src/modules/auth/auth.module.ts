@@ -1,12 +1,9 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { AuthController } from './auth.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsuariosService } from '../usuarios/usuarios.service';
-import { UsuariosController } from '../usuarios/usuarios.controller';
-import { Usuario } from '../usuarios/entities/usuario.entity';
-import { PassportModule } from '@nestjs/passport';
+import { UsuariosModule } from '../usuarios/usuarios.module';
 import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -17,17 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
     forwardRef(() => UsuariosModule),
   ],
-  controllers: [AuthController],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}
-
-// usuarios/usuarios.module.ts
-@Module({
-  imports: [TypeOrmModule.forFeature([Usuario]), forwardRef(() => AuthModule)],
-  providers: [UsuariosService],
-  controllers: [UsuariosController],
-  exports: [UsuariosService],
-})
-export class UsuariosModule {}

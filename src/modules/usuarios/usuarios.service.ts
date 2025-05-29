@@ -1,35 +1,45 @@
-import { CreateUsuarioDto } from './dto/create-usuario.dto';
-import { UpdateUsuarioDto } from './dto/update-usuario.dto';
-
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Usuario } from './entities/usuario.entity';
+import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsuariosService {
   constructor(
     @InjectRepository(Usuario)
-    private readonly usuarioRepository: Repository<Usuario>,
+    private repo: Repository<Usuario>,
   ) {}
 
-  async findByEmail(email: string): Promise<Usuario | undefined> {
-    return await this.usuarioRepository.findOne({ where: { email } });
+  async create(dto: CreateUsuarioDto) {
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
+    const user = this.repo.create({ ...dto, password: hashedPassword });
+    return this.repo.save(user);
   }
 
-  async findAll(): Promise<Usuario[]> {
-    return await this.usuarioRepository.find();
+  findByEmail(email: string) {
+    return this.repo.findOne({ where: { email } });
   }
 
-  async findOne(id: string): Promise<Usuario> {
-    const usuario = await this.usuarioRepository.findOne({ where: { id } });
-    if (!usuario) throw new NotFoundException('Usuario no encontrado');
-    return usuario;
+  findOne(id: string) {
+    return this.repo.findOne({ where: { id } });
   }
 
-  async remove(id: string): Promise<void> {
-    await this.usuarioRepository.delete(id);
+  findAll() {
+    return this.repo.find();
   }
 
-  // Otros métodos como create(), update(), etc. si los necesitas
+  async update(id: string, attrs: Partial<Usuario>) {
+    await this.repo.update(id, attrs);
+    return this.repo.findOne({ where: { id } });
+  }
+
+  async remove(id: string) {
+    await this.repo.delete(id);
+    return { message: 'Usuario eliminado' };
+  }
 }
+
+
+

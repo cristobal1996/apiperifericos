@@ -1,7 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Carrito } from 'src/modules/carrito/entities/carrito.entity';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity('Usuarios')
+export enum Rol {
+  USUARIO = 'usuario',
+  ADMIN = 'admin',
+}
+
+@Entity('usuarios')
 export class Usuario {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -15,11 +19,11 @@ export class Usuario {
   @Column('text')
   password: string;
 
-  @Column('text', { default: 'usuario' })
-  rol: string;
-
-  @OneToMany(() => Carrito, carrito => carrito.usuario)
-  carritos: Carrito[];
+  @Column({ type: 'enum', enum: Rol, default: Rol.USUARIO })
+  rol: Rol;
 }
+
+
+
 
 
