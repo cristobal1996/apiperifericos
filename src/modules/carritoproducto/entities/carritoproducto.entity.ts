@@ -10,13 +10,14 @@ export class CarritoProducto {
   @ManyToOne(() => Carrito, carrito => carrito.productos)
   carrito: Carrito;
 
-  @ManyToOne(() => Producto, producto => producto.carritos)
+  @ManyToOne(() => Producto, producto => producto.carritoProductos)
   producto: Producto;
 
   @Column('int')
   cantidad: number;
 
   @Column('numeric')
-  precio: number; 
+  precio: number;
 }
+
 

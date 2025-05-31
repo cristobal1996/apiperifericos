@@ -1,33 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { ProductosService } from './productos.service';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
-
-@UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('admin')
-@Post()
-createProducto(@Body() dto: CreateProductoDto) {
-  return this.productoService.create(dto);
-}
-
-@UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('admin')
-@Patch(':id')
-updateProducto(@Param('id') id: string, @Body() dto: UpdateProductoDto) {
-  return this.productoService.update(id, dto);
-}
-
-@UseGuards(AuthGuard('jwt'), RolesGuard)
-@Roles('admin')
-@Delete(':id')
-removeProducto(@Param('id') id: string) {
-  return this.productoService.remove(id);
-}
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('productos')
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
 
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   @Post()
   create(@Body() createProductoDto: CreateProductoDto) {
     return this.productosService.create(createProductoDto);
@@ -40,16 +33,21 @@ export class ProductosController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.productosService.findOne(+id);
+    return this.productosService.findOne(id);
   }
 
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductoDto: UpdateProductoDto) {
-    return this.productosService.update(+id, updateProductoDto);
+    return this.productosService.update(id, updateProductoDto);
   }
 
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.productosService.remove(+id);
+    return this.productosService.remove(id);
   }
 }
+

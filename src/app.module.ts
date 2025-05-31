@@ -3,7 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { ProductosModule } from './modules/productos/productos.module';
+import { ProductoModule } from './modules/productos/productos.module';
 import { CategoriasModule } from './modules/categorias/categorias.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
@@ -20,10 +20,11 @@ import { CarritoproductoModule } from './modules/carritoproducto/carritoproducto
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
+      schema: process.env.DB_SCHEMA || 'public',
       autoLoadEntities: true,
       synchronize: true,
     }),
-    ProductosModule,
+    ProductoModule,
     CategoriasModule,
     AuthModule,
     UsuariosModule,

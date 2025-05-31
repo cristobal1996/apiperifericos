@@ -2,44 +2,33 @@ import { CarritoProducto } from "src/modules/carritoproducto/entities/carritopro
 import { Categoria } from "src/modules/categorias/entities/categoria.entity";
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: ' Productos'})
-
+@Entity('productos')
 export class Producto {
-    
-@PrimaryGeneratedColumn('uuid')
-cod: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-@Column('text', {
-    unique: true,
-})
-nombre: string;
+  @Column('text', { unique: true })
+  nombre: string;
 
-@Column('numeric', {
-    default: 0
-})
-precio: number;
+  @Column('numeric', { default: 0 })
+  precio: number;
 
-@Column({
-    type:'text',
-    nullable: true
-})
-descripcion: string;
+  @Column('text', { nullable: true })
+  descripcion: string;
 
-@Column({
-    type: 'int',
-    default: 0
-})
-stock: number;
+  @Column('int', { default: 0 })
+  stock: number;
 
+  @Column('text', { array: true })
+  tamaño: string[];
 
-@Column('text', {
-    array: true
-})
-tamaño: string[];
-
-@ManyToOne(() => Categoria, (categoria) => categoria.Producto, {
+  @ManyToOne(() => Categoria, categoria => categoria.productos, {
     cascade: true,
+    eager: true,
   })
-@OneToMany(() => CarritoProducto, cp => cp.producto)
-  carritos: CarritoProducto[];
+  categoria: Categoria;
+
+  @OneToMany(() => CarritoProducto, cp => cp.producto)
+  carritoProductos: CarritoProducto[];
 }
+

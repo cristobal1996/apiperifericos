@@ -5,9 +5,16 @@ import { UsuariosService } from './usuarios.service';
 import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Usuario]), forwardRef(() => AuthModule)],
+  imports: [
+    TypeOrmModule.forFeature([Usuario]),
+    forwardRef(() => AuthModule),
+  ],
   providers: [UsuariosService],
-  exports: [UsuariosService],
+  exports: [
+    UsuariosService,
+    TypeOrmModule, // 👈 Exporta TypeOrmModule para que la entidad esté disponible fuera
+  ],
 })
 export class UsuariosModule {}
+
 

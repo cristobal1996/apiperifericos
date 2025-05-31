@@ -1,9 +1,20 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CarritoService } from './carrito.service';
 import { CarritoController } from './carrito.controller';
+import { Carrito } from './entities/carrito.entity';
+import { CarritoProducto } from '../carritoproducto/entities/carritoproducto.entity';
+import { UsuariosModule } from '../usuarios/usuarios.module';
+import { ProductoModule } from '../productos/productos.module';
 
 @Module({
-  controllers: [CarritoController],
+  imports: [
+    TypeOrmModule.forFeature([Carrito, CarritoProducto]),
+    ProductoModule,  // Importa el módulo que exporta ProductoRepository
+  ],
   providers: [CarritoService],
+  controllers: [CarritoController],
 })
 export class CarritoModule {}
+
+

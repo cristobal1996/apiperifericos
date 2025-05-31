@@ -1,8 +1,16 @@
 import { CarritoProducto } from "src/modules/carritoproducto/entities/carritoproducto.entity";
 import { Usuario } from "src/modules/usuarios/entities/usuario.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from "typeorm";
 
-@Entity('Carritos')
+@Entity('carritos')
 export class Carrito {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -10,9 +18,12 @@ export class Carrito {
   @Column('uuid')
   usuarioId: string;
 
-  @OneToMany(() => CarritoProducto, cp => cp.carrito, { cascade: true, eager: true })
+  @OneToMany(() => CarritoProducto, cp => cp.carrito, {
+    cascade: true,
+    eager: true,
+  })
   productos: CarritoProducto[];
-  
+
   @ManyToOne(() => Usuario, usuario => usuario.carritos)
   usuario: Usuario;
 
@@ -21,6 +32,5 @@ export class Carrito {
 
   @UpdateDateColumn()
   actualizadoEn: Date;
-  
 }
 

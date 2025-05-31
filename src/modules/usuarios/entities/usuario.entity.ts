@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Carrito } from "src/modules/carrito/entities/carrito.entity";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 export enum Rol {
   USUARIO = 'usuario',
@@ -21,7 +22,12 @@ export class Usuario {
 
   @Column({ type: 'enum', enum: Rol, default: Rol.USUARIO })
   rol: Rol;
+
+  @OneToMany(() => Carrito, carrito => carrito.usuario)
+  carritos: Carrito[];
 }
+
+
 
 
 

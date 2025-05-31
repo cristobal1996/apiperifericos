@@ -1,20 +1,17 @@
 import { Producto } from "src/modules/productos/entities/producto.entity";
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 
-@Entity({
-    name: 'Categoria',
-  })
+@Entity('categoria')
 export class Categoria {
-@PrimaryColumn()
-cod: string;
+  @PrimaryColumn()
+  cod: string; // Lo mantienes manual si así lo deseas
 
-@Column('text', { unique: true })
-nombre: string;
+  @Column('text', { unique: true })
+  nombre: string;
 
-@Column('text')
-descripcion: string;
+  @Column('text')
+  descripcion: string;
 
-@OneToMany(() => Producto, (Producto) => Producto.categoria, { cascade: false })
-Producto?: Producto[];
-
+  @OneToMany(() => Producto, producto => producto.categoria)
+  productos: Producto[];
 }

@@ -1,34 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Patch,
+  Param,
+  Body,
+  ParseUUIDPipe,
+  UseGuards,
+} from '@nestjs/common';
 import { CarritoService } from './carrito.service';
-import { CreateCarritoDto } from './dto/create-carrito.dto';
 import { UpdateCarritoDto } from './dto/update-carrito.dto';
+import { Carrito } from './entities/carrito.entity';
+import { JwtAuthGuard } from 'src/modules/auth/jwt-auth.guard';
+import { RolesGuard } from 'src/modules/auth/roles.guard';
+import { Roles } from 'src/modules/auth/roles.decorator';
 
-@Controller('carrito')
+@Controller('carritos')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class CarritoController {
   constructor(private readonly carritoService: CarritoService) {}
 
-  @Post()
-  create(@Body() createCarritoDto: CreateCarritoDto) {
-    return this.carritoService.create(createCarritoDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.carritoService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.carritoService.findOne(+id);
-  }
-
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCarritoDto: UpdateCarritoDto) {
-    return this.carritoService.update(+id, updateCarritoDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.carritoService.remove(+id);
+  @Roles('admin', 'user')
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: UpdateCarritoDto,
+  ): Promise<Carrito> {
+    return this.carritoService.update(id, dto);
   }
 }
+
+
