@@ -4,7 +4,7 @@ import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
 @Entity('categoria')
 export class Categoria {
   @PrimaryColumn()
-  cod: string; // Lo mantienes manual si así lo deseas
+  cod: string;
 
   @Column('text', { unique: true })
   nombre: string;

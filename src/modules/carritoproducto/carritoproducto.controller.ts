@@ -1,34 +1,35 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CarritoproductoService } from './carritoproducto.service';
-import { CreateCarritoproductoDto } from './dto/create-carritoproducto.dto';
-import { UpdateCarritoproductoDto } from './dto/update-carritoproducto.dto';
+import { CarritoProductoService } from './carritoproducto.service';
+import { CreateCarritoProductoDto } from './dto/create-carritoproducto.dto';
+import { UpdateCarritoProductoDto } from './dto/update-carritoproducto.dto';
 
-@Controller('carritoproducto')
-export class CarritoproductoController {
-  constructor(private readonly carritoproductoService: CarritoproductoService) {}
+@Controller('carrito-productos')
+export class CarritoProductoController {
+  constructor(private readonly service: CarritoProductoService) {}
 
   @Post()
-  create(@Body() createCarritoproductoDto: CreateCarritoproductoDto) {
-    return this.carritoproductoService.create(createCarritoproductoDto);
+  create(@Body() dto: CreateCarritoProductoDto) {
+    return this.service.create(dto);
   }
 
   @Get()
   findAll() {
-    return this.carritoproductoService.findAll();
+    return this.service.findAll();
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.carritoproductoService.findOne(+id);
+    return this.service.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCarritoproductoDto: UpdateCarritoproductoDto) {
-    return this.carritoproductoService.update(+id, updateCarritoproductoDto);
+  update(@Param('id') id: string, @Body() dto: UpdateCarritoProductoDto) {
+    return this.service.update(id, dto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.carritoproductoService.remove(+id);
+    return this.service.remove(id);
   }
 }
+

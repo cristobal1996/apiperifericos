@@ -4,11 +4,11 @@ import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ProductoModule } from './modules/productos/productos.module';
-import { CategoriasModule } from './modules/categorias/categorias.module';
+import { CategoriaModule } from './modules/categorias/categorias.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { CarritoModule } from './modules/carrito/carrito.module';
-import { CarritoproductoModule } from './modules/carritoproducto/carritoproducto.module';
+import { CarritoProductoModule } from './modules/carritoproducto/carritoproducto.module';
 
 @Module({
   imports: [
@@ -25,11 +25,11 @@ import { CarritoproductoModule } from './modules/carritoproducto/carritoproducto
       synchronize: true,
     }),
     ProductoModule,
-    CategoriasModule,
+    CategoriaModule,
     AuthModule,
     UsuariosModule,
     CarritoModule,
-    CarritoproductoModule,
+    CarritoProductoModule,
     ],
   controllers: [AppController],
   providers: [AppService],

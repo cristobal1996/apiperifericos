@@ -1,26 +1,40 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Categoria } from './entities/categoria.entity';
 import { CreateCategoriaDto } from './dto/create-categoria.dto';
 import { UpdateCategoriaDto } from './dto/update-categoria.dto';
 
 @Injectable()
-export class CategoriasService {
-  create(createCategoriaDto: CreateCategoriaDto) {
-    return 'This action adds a new categoria';
+export class CategoriaService {
+  constructor(
+    @InjectRepository(Categoria)
+    private readonly categoriaRepository: Repository<Categoria>,
+  ) {}
+
+  async create(dto: CreateCategoriaDto): Promise<Categoria> {
+    const categoria = this.categoriaRepository.create(dto);
+    return await this.categoriaRepository.save(categoria);
   }
 
-  findAll() {
-    return `This action returns all categorias`;
+  async findAll(): Promise<Categoria[]> {
+    return await this.categoriaRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} categoria`;
+  async findOne(cod: string): Promise<Categoria> {
+    const categoria = await this.categoriaRepository.findOne({ where: { cod } });
+    if (!categoria) throw new NotFoundException(`Categoría con código ${cod} no encontrada.`);
+    return categoria;
   }
 
-  update(id: number, updateCategoriaDto: UpdateCategoriaDto) {
-    return `This action updates a #${id} categoria`;
+  async update(cod: string, dto: UpdateCategoriaDto): Promise<Categoria> {
+    const categoria = await this.findOne(cod);
+    Object.assign(categoria, dto);
+    return await this.categoriaRepository.save(categoria);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} categoria`;
+  async remove(cod: string): Promise<void> {
+    const categoria = await this.findOne(cod);
+    await this.categoriaRepository.remove(categoria);
   }
 }
