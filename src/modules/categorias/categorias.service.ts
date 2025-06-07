@@ -21,6 +21,12 @@ export class CategoriaService {
     return await this.categoriaRepository.find();
   }
 
+  async findAllWithProductos(): Promise<Categoria[]> {
+    return await this.categoriaRepository.find({
+      relations: ['productos'],
+    });
+  }
+
   async findOne(cod: string): Promise<Categoria> {
     const categoria = await this.categoriaRepository.findOne({ where: { cod } });
     if (!categoria) throw new NotFoundException(`Categoría con código ${cod} no encontrada.`);

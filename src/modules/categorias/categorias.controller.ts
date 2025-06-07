@@ -17,6 +17,11 @@ export class CategoriaController {
     return this.categoriaService.findAll();
   }
 
+  @Get('con-productos')
+  findAllWithProductos() {
+    return this.categoriaService.findAllWithProductos();
+  }
+
   @Get(':cod')
   findOne(@Param('cod') cod: string) {
     return this.categoriaService.findOne(cod);
