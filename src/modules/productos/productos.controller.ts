@@ -19,35 +19,41 @@ import { Roles } from '../auth/roles.decorator';
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
 
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
-  @Roles('admin')
-  @Post()
-  create(@Body() createProductoDto: CreateProductoDto) {
-    return this.productosService.create(createProductoDto);
-  }
-
+  // ✅ Público
   @Get()
   findAll() {
     return this.productosService.findAll();
   }
 
+  // ✅ Público
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productosService.findOne(id);
   }
 
+  // 🔒 Protegido solo para ADMIN
+  @Post()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductoDto: UpdateProductoDto) {
-    return this.productosService.update(id, updateProductoDto);
+  create(@Body() dto: CreateProductoDto) {
+    return this.productosService.create(dto);
   }
 
+  // 🔒 Protegido solo para ADMIN
+  @Patch(':id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
+  update(@Param('id') id: string, @Body() dto: UpdateProductoDto) {
+    return this.productosService.update(id, dto);
+  }
+
+  // 🔒 Protegido solo para ADMIN
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @Roles('admin')
   remove(@Param('id') id: string) {
     return this.productosService.remove(id);
   }
 }
+
 
