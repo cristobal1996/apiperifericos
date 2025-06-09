@@ -7,13 +7,13 @@ import { LocalAuthGuard } from './local-auth.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  // Registro de usuarios
+
   @Post('register')
   async register(@Body() dto: CreateUsuarioDto) {
     return this.authService.register(dto);
   }
 
-  // Login de usuarios (usa estrategia local para validar credenciales)
+
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {

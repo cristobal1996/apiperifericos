@@ -19,19 +19,19 @@ import { Roles } from '../auth/roles.decorator';
 export class ProductosController {
   constructor(private readonly productosService: ProductosService) {}
 
-  // ✅ Público
+
   @Get()
   findAll() {
     return this.productosService.findAll();
   }
 
-  // ✅ Público
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productosService.findOne(id);
   }
 
-  // 🔒 Protegido solo para ADMIN
+ 
   @Post()
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
@@ -39,7 +39,7 @@ export class ProductosController {
     return this.productosService.create(dto);
   }
 
-  // 🔒 Protegido solo para ADMIN
+  
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')
@@ -47,7 +47,7 @@ export class ProductosController {
     return this.productosService.update(id, dto);
   }
 
-  // 🔒 Protegido solo para ADMIN
+  
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'), RolesGuard)
   @Roles('admin')

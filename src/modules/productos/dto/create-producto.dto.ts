@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsNumber, IsArray } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsArray, Length } from 'class-validator';
 
 export class CreateProductoDto {
   @IsString()
@@ -15,11 +15,12 @@ export class CreateProductoDto {
   @IsNumber()
   stock: number;
 
-  @IsArray()
-  @IsString({ each: true })
-  tamaño: string[];
+  @IsString()
+  tamaño: string;
 
   @IsString()
+  @IsNotEmpty()
+  @Length(1, 10)
   categoriaCod: string;
 }
 

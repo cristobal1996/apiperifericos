@@ -11,7 +11,7 @@ import { AuthController } from './auth.controller';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET || 'secretKey',
+      secret: process.env.JWT_SECRET || 'tuclaveSecreta123',
       signOptions: { expiresIn: '1d' },
     }),
     forwardRef(() => UsuariosModule),

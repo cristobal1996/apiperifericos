@@ -19,8 +19,8 @@ export class Producto {
   @Column('int', { default: 0 })
   stock: number;
 
-  @Column('text', { array: true })
-  tamaño: string[];
+  @Column('text', { nullable: true })
+  tamaño: string;
 
   @ManyToOne(() => Categoria, categoria => categoria.productos, {
     cascade: true,
