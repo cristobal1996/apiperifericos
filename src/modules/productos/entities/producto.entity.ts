@@ -22,6 +22,9 @@ export class Producto {
   @Column('text', { nullable: true })
   tamaño: string;
 
+  @Column('text', { nullable: true })
+  imagen: string; 
+
   @ManyToOne(() => Categoria, categoria => categoria.productos, {
     cascade: true,
     eager: true,
@@ -31,4 +34,5 @@ export class Producto {
   @OneToMany(() => CarritoProducto, cp => cp.producto)
   carritoProductos: CarritoProducto[];
 }
+
 

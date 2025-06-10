@@ -10,7 +10,7 @@ import { ProductoModule } from '../productos/productos.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Carrito, CarritoProducto]),
-    ProductoModule,  // Importa el módulo que exporta ProductoRepository
+    ProductoModule,  
   ],
   providers: [CarritoService],
   controllers: [CarritoController],
