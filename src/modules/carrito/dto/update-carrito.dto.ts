@@ -1,4 +1,3 @@
-// src/modules/carrito/dto/update-carrito.dto.ts
 import {
   IsUUID,
   IsOptional,
@@ -7,21 +6,9 @@ import {
   IsEnum,
   IsInt,
   Min,
+  ValidateIf,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-
-class ProductoCarritoDto {
-  @IsUUID()
-  productoId: string;
-
-  @IsEnum(['agregar', 'eliminar', 'actualizar'])
-  accion: 'agregar' | 'eliminar' | 'actualizar';
-
-  @IsOptional()
-  @IsInt()
-  @Min(1)
-  cantidad?: number;
-}
 
 export enum AccionProducto {
   AGREGAR = 'agregar',
@@ -29,6 +16,18 @@ export enum AccionProducto {
   ACTUALIZAR = 'actualizar',
 }
 
+class ProductoCarritoDto {
+  @IsUUID()
+  productoId: string;
+
+  @IsEnum(AccionProducto)
+  accion: AccionProducto;
+
+  @ValidateIf((o) => o.accion !== AccionProducto.ELIMINAR)
+  @IsInt()
+  @Min(1)
+  cantidad?: number;
+}
 
 export class UpdateCarritoDto {
   @IsOptional()
@@ -41,5 +40,7 @@ export class UpdateCarritoDto {
   @Type(() => ProductoCarritoDto)
   productos?: ProductoCarritoDto[];
 }
+
+
 
 

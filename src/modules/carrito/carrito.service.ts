@@ -22,7 +22,7 @@ export class CarritoService {
   async update(id: string, dto: UpdateCarritoDto): Promise<Carrito> {
     const carrito = await this.carritoRepository.findOne({
       where: { id },
-      relations: ['productos'],
+      relations: ['productos', 'productos.producto'], // 👈 NECESARIO
     });
 
     if (!carrito) throw new NotFoundException('Carrito no encontrado');
@@ -39,7 +39,9 @@ export class CarritoService {
 
         if (!producto) continue;
 
-        const existente = carrito.productos.find(cp => cp.producto.id === p.productoId);
+        const existente = carrito.productos.find(
+          cp => cp.producto?.id === p.productoId, // 👈 comprobación segura
+        );
 
         switch (p.accion) {
           case AccionProducto.AGREGAR:
@@ -74,5 +76,18 @@ export class CarritoService {
 
     return this.carritoRepository.save(carrito);
   }
-}
 
+  async findByUsuarioId(usuarioId: string): Promise<Carrito> {
+    let carrito = await this.carritoRepository.findOne({
+      where: { usuarioId },
+      relations: ['productos', 'productos.producto'], // 👈 también aquí
+    });
+
+    if (!carrito) {
+      carrito = this.carritoRepository.create({ usuarioId, productos: [] });
+      await this.carritoRepository.save(carrito);
+    }
+
+    return carrito;
+  }
+}

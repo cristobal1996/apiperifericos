@@ -5,6 +5,7 @@ import {
   Body,
   ParseUUIDPipe,
   UseGuards,
+  Get,
 } from '@nestjs/common';
 import { CarritoService } from './carrito.service';
 import { UpdateCarritoDto } from './dto/update-carrito.dto';
@@ -18,8 +19,14 @@ import { Roles } from 'src/modules/auth/roles.decorator';
 export class CarritoController {
   constructor(private readonly carritoService: CarritoService) {}
 
+  @Get(':usuarioId')
+  @Roles('usuario', 'admin')
+  async findByUsuario(@Param('usuarioId', ParseUUIDPipe) usuarioId: string): Promise<Carrito> {
+    return this.carritoService.findByUsuarioId(usuarioId);
+  }
+
   @Patch(':id')
-  @Roles('admin', 'user')
+  @Roles('admin', 'usuario')
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateCarritoDto,
@@ -27,5 +34,6 @@ export class CarritoController {
     return this.carritoService.update(id, dto);
   }
 }
+
 
 

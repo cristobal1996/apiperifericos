@@ -27,7 +27,16 @@ export class AuthService {
     };
   }
 
-  register(dto: CreateUsuarioDto) {
-    return this.usuariosService.create(dto);
+  async register(dto: CreateUsuarioDto) {
+    const newUser = await this.usuariosService.create(dto);
+    const payload = {
+      email: newUser.email,
+      sub: newUser.id,
+      rol: newUser.rol,
+    };
+    return {
+      token: this.jwtService.sign(payload),
+    };
   }
 }
+
